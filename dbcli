@@ -1,0 +1,22 @@
+#!/usr/bin/php
+<?php
+
+use App\App;
+use App\Controllers\RedisController;
+use App\Helpers\Dotenv;
+
+if (php_sapi_name() !== 'cli') {
+    exit;
+}
+require __DIR__ . '/vendor/autoload.php';
+
+$app = new App();
+(new Dotenv())->load(__DIR__ . '/.env');
+
+$app->registerCommand('help', function (array $argv) use ($app) {
+    $app->printer->display('usage: dbcli redis add {key} {value}');
+    $app->printer->display('usage: dbcli redis delete {key}');
+});
+$app->registerController('redis', new RedisController());
+
+$app->runCommand($argv);
