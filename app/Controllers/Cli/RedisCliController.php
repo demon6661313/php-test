@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Cli;
 
+use App\Controllers\Controller;
 use App\Database\Factory\DatabaseFactory;
 
-class RedisController extends CommandController
+class RedisCliController extends Controller
 {
     protected $redis;
     public function __construct()
@@ -18,6 +19,10 @@ class RedisController extends CommandController
 
             $this->$name($argv);
         }
+    }
+
+    public function all()
+    {
     }
     protected function get($argv)
     {

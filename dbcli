@@ -2,7 +2,7 @@
 <?php
 
 use App\App;
-use App\Controllers\RedisController;
+use App\Controllers\Cli\RedisCliController;
 use App\Helpers\Dotenv;
 
 if (php_sapi_name() !== 'cli') {
@@ -17,6 +17,6 @@ $app->registerCommand('help', function (array $argv) use ($app) {
     $app->printer->display('usage: dbcli redis add {key} {value}');
     $app->printer->display('usage: dbcli redis delete {key}');
 });
-$app->registerController('redis', new RedisController());
+$app->registerController('redis', new RedisCliController());
 
 $app->runCommand($argv);

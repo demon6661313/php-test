@@ -4,11 +4,9 @@ namespace App\Controllers;
 
 use App\App;
 
-abstract class CommandController
+abstract class Controller
 {
     protected $app;
-
-    abstract public function run($argv);
 
     public function __construct(App $app)
     {
