@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\Cli\CommandController;
+use App\Controllers\Cli\RedisCliController;
 use App\Controllers\Controller;
 use App\Helpers\CliPrinter;
 use App\Helpers\Dotenv;
@@ -38,7 +40,7 @@ class App
             exit;
         }
     }
-    public function registerController($name, Controller $controller)
+    public function registerController($name, CommandController $controller)
     {
         $this->command_registry->registerController($name, $controller);
     }
@@ -65,20 +67,29 @@ class App
                 break;
             }
             $patternArr = explode('/', $pattern);
+            if (count($uriArr) != count($patternArr)) {
+                continue;
+            }
             foreach ($patternArr as $key => $value) {
+
                 if (str_starts_with($value, '{')) {
+                    preg_match('/\{(\w+?)\}/', $value, $matches);
+                    if (isset($matches[1])) {
+                        $request->{$matches[1]} = $uriArr[$key];
+                    }
                     continue;
                 }
                 if ($value != $uriArr[$key]) {
                     break;
                 }
-                if ($key == count($patternArr)) {
+
+                if ($key == count($patternArr) - 1) {
                     $match = $callable;
                 }
             }
         }
-
-        var_dump($match);
+        $controller = new $callable[0]($this);
+        $controller->{$callable[1]}($request);
 
         return false;
     }

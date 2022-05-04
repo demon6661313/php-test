@@ -2,10 +2,9 @@
 
 namespace App\Controllers\Cli;
 
-use App\Controllers\Controller;
 use App\Database\Factory\DatabaseFactory;
 
-class RedisCliController extends Controller
+class RedisCliController extends CommandController
 {
     protected $redis;
     public function __construct()

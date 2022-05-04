@@ -2,14 +2,14 @@
 
 namespace App;
 
-use App\Controllers\Controller;
+use App\Controllers\Cli\CommandController;
 
 class CommandRegistry
 {
     protected $registry = [];
     protected $controllers = [];
 
-    public function registerController($command_name, Controller $controller)
+    public function registerController($command_name, CommandController $controller)
     {
         $this->controllers = [$command_name => $controller];
     }
@@ -32,7 +32,7 @@ class CommandRegistry
     {
         $controller = $this->getController($command_name);
 
-        if ($controller instanceof Controller) {
+        if ($controller instanceof CommandController) {
             return [$controller, 'run'];
         }
 

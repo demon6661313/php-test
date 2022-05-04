@@ -24,4 +24,8 @@ class RedisClient implements Database
     {
         return $this->redis->del($key);
     }
+    public function all()
+    {
+        return $this->redis->keys('*');
+    }
 }
